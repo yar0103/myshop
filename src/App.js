@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import Cart from './component/Cart.js';
 import Sample from './component/Sample.js';
+import Basket from './component/Basket.js';
 
 function App() {
   let [shoes, setShoes] = useState(data);
@@ -25,6 +26,20 @@ function App() {
               }}
             >
               Home
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('/about');
+              }}
+            >
+              About
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('./basket');
+              }}
+            >
+              Basket
             </Nav.Link>
             <Nav.Link
               onClick={() => {
@@ -90,14 +105,15 @@ function App() {
         />
 
         {/* url 파라미터 문법 */}
-        <Route path="/cart:id" element={<Cart shoes={shoes} />} />
+        <Route path="/cart/:id" element={<Cart shoes={shoes} />} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>member</div>} />
           <Route path="location" element={<div>location</div>} />
         </Route>
+        <Route path="/basket" element={<Basket />} />
         <Route path="/event" element={<Event />}>
           <Route path="one" element={<div>첫 주문시 양배추즙 드림</div>} />
-          <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
+          <Route path="two" element={<div>생일기념 sample쿠폰받기</div>} />
         </Route>
         <Route path="/sample" element={<Sample />} />
         <Route path="*" element={<div>404 page</div>} />
@@ -125,14 +141,18 @@ const About = () => {
 };
 
 const Card = (props) => {
+  let navigate = useNavigate();
   return (
     <div className="col-md-4">
-      <img
-        src={
-          'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'
-        }
-        width="80%"
-      />
+      <Link to={'/cart/' + (props.i + 1)}>
+        <img
+          src={
+            'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'
+          }
+          width="80%"
+        />
+      </Link>
+
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </div>
