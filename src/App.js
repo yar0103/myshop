@@ -13,6 +13,7 @@ import Basket from './component/Basket.js';
 function App() {
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  const [page, setPage] = useState(2);
 
   return (
     <div className="App">
@@ -76,30 +77,32 @@ function App() {
               <div className="container">
                 <div className="row">
                   {shoes.map((item, i) => {
-                    return <Card shoes={shoes[i]} i={i} key={i} />;
+                    return <Card shoes={shoes[i]} i={i} key={item.id} />;
                   })}
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  axios
-                    .get('https://codingapple1.github.io/shop/data2.json')
-                    .then((result) => {
-                      console.log(result.data);
-                      let copy = [...shoes, ...result.data];
-                      setShoes(copy);
-                    });
-                  axios
-                    .get('https://codingapple1.github.io/shop/data3.json')
-                    .then((result) => {
-                      console.log(result.data);
-                      let copy = [...shoes, ...result.data];
-                      setShoes(copy);
-                    });
-                }}
-              >
-                더보기
-              </button>
+              {page < 4 ? (
+                <button
+                  onClick={() => {
+                    axios
+                      .get(
+                        `https://codingapple1.github.io/shop/data${page}.json`
+                      )
+                      .then((result) => {
+                        console.log(result.data);
+                        let copy = [...shoes, ...result.data];
+                        setShoes(copy);
+                        setPage((prev) => {
+                          return prev + 1;
+                        });
+                      });
+                  }}
+                >
+                  더보기
+                </button>
+              ) : (
+                ''
+              )}
             </>
           }
         />
