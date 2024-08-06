@@ -19,7 +19,9 @@ function App() {
     <div className="App">
       <Navbar bg="light" data-bs-theme="light">
         <Container>
-          <Navbar.Brand href="#home">Shoes Shop</Navbar.Brand>
+          <Navbar.Brand href="#home">
+            <img src={`${process.env.PUBLIC_URL}/logo.png`} alt='logo' width="100px" />
+          </Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
@@ -73,7 +75,6 @@ function App() {
           element={
             <>
               <div className="main-bg"></div>
-
               <div className="container">
                 <div className="row">
                   {shoes.map((item, i) => {
@@ -81,8 +82,12 @@ function App() {
                   })}
                 </div>
               </div>
+              
               {page < 4 ? (
+                
                 <button
+                  type="button" 
+                  class="btn btn-warning"
                   onClick={() => {
                     axios
                       .get(
@@ -98,10 +103,10 @@ function App() {
                       });
                   }}
                 >
-                  더보기
+                  More
                 </button>
               ) : (
-                ''
+                <button disabled>Doesn't exist</button>
               )}
             </>
           }
